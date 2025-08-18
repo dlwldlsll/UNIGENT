@@ -1,6 +1,6 @@
 'use client';
 
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, LabelList, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import { Badge } from '@/components/ui/badge';
 import { Bell, Calendar as CalendarIcon } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -94,37 +94,42 @@ const ProgramSchedule = () => {
 
 const CreditStatusChart = () => {
     const data = [
-        { name: '공통교양', value: 43, total: 64 },
-        { name: '심화교양', value: 15, total: 15 },
-        { name: '전공필수', value: 9, total: 9 },
-        { name: '전공선택', value: 33, total: 63 },
+        { name: '공통교양', value: 43, total: 64, percentage: (43/64)*100 },
+        { name: '심화교양', value: 15, total: 15, percentage: 100 },
+        { name: '전공필수', value: 9, total: 9, percentage: 100 },
+        { name: '전공선택', value: 33, total: 63, percentage: (33/63)*100 },
     ];
 
     return (
-        <Card className="col-span-1 md:col-span-2">
+        <Card className="col-span-1 md:col-span-2 bg-[#F0F5FF]">
             <CardContent className="p-4 h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={data} margin={{ top: 20, right: 0, left: -20, bottom: 5 }}>
+                    <BarChart data={data} margin={{ top: 20, right: 20, left: 0, bottom: 5 }}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} />
                         <XAxis 
                           dataKey="name" 
-                          tick={{ fontSize: 12 }} 
+                          tick={{ fontSize: 14, fill: '#4B5563' }} 
                           axisLine={false} 
                           tickLine={false}
+                          dy={10}
                         />
                         <YAxis 
                           domain={[0, 100]} 
-                          ticks={[0, 100]} 
-                          tickFormatter={(value) => value === 100 ? '100%' : ''}
+                          ticks={[100]} 
+                          tickFormatter={(value) => `${value}%`}
+                          tick={{ fontSize: 12, fill: '#3B82F6' }}
                           axisLine={false} 
                           tickLine={false}
+                          width={40}
                         />
-                        <Bar dataKey="value" fill="#3B82F6" radius={[4, 4, 0, 0]}>
-                            {data.map((entry, index) => (
-                                <text key={`label-${index}`} x={index * (100 / data.length) + (100 / (data.length * 2)) + '%'} y={230 - (entry.value / entry.total) * 200 - 5} fill="#6B7280" textAnchor="middle" fontSize={12}>
-                                    {entry.value}/{entry.total}
-                                </text>
-                            ))}
+                        <Bar dataKey="percentage" fill="#3B82F6" radius={[4, 4, 0, 0]}>
+                            <LabelList 
+                                dataKey="value" 
+                                position="top" 
+                                formatter={(value: number, entry: any) => `${value}/${entry.payload.total}`}
+                                style={{ fontSize: 14, fill: '#3B82F6', fontWeight: 500 }}
+                                offset={10} 
+                            />
                         </Bar>
                     </BarChart>
                 </ResponsiveContainer>
