@@ -4,30 +4,62 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Calendar, ChevronLeft, ChevronRight, Flame, Share2, Star } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
-const CourseCard = ({ title, tags, description, link }: { title: string; tags: string[]; description: string; link: string }) => (
-    <Card className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
-      <CardContent className="p-6">
-        <h3 className="text-lg font-bold mb-2">{title}</h3>
-        <div className="flex flex-wrap gap-2 mb-3">
-          {tags.map((tag) => (
-            <Badge key={tag} variant="secondary" className="bg-blue-100 text-blue-600 font-normal">{tag}</Badge>
-          ))}
-        </div>
-        <p className="text-sm text-gray-600 mb-4">{description}</p>
-        <div className="flex justify-between items-center text-sm text-gray-500">
-          <a href={link} className="flex items-center gap-1 hover:underline" target="_blank" rel="noopener noreferrer">
-            강의 계획서
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-          </a>
-          <div className="flex gap-2">
-            <button><Star className="w-4 h-4" /></button>
-            <button><Share2 className="w-4 h-4" /></button>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-);
+const CourseCard = ({ title, tags, description, link }: { title: string; tags: string[]; description: string; link: string }) => {
+    const [isFavorited, setIsFavorited] = useState(false);
+    const { toast } = useToast();
+
+    const handleFavorite = () => {
+        setIsFavorited(!isFavorited);
+    };
+
+    const handleShare = () => {
+        navigator.clipboard.writeText(window.location.origin + link)
+            .then(() => {
+                toast({
+                    title: "Copied to Clipboard",
+                    description: "Course link has been copied.",
+                });
+            })
+            .catch(err => {
+                console.error('Failed to copy text: ', err);
+                toast({
+                    title: "Error",
+                    description: "Could not copy the link.",
+                    variant: "destructive"
+                });
+            });
+    };
+    
+    return (
+        <Card className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
+          <CardContent className="p-6">
+            <h3 className="text-lg font-bold mb-2">{title}</h3>
+            <div className="flex flex-wrap gap-2 mb-3">
+              {tags.map((tag) => (
+                <Badge key={tag} variant="secondary" className="bg-blue-100 text-blue-600 font-normal">{tag}</Badge>
+              ))}
+            </div>
+            <p className="text-sm text-gray-600 mb-4">{description}</p>
+            <div className="flex justify-between items-center text-sm text-gray-500">
+              <a href={link} className="flex items-center gap-1 hover:underline" target="_blank" rel="noopener noreferrer">
+                강의 계획서
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+              <div className="flex gap-2">
+                <button onClick={handleFavorite}>
+                    <Star className={`w-4 h-4 ${isFavorited ? 'text-yellow-500 fill-yellow-500' : ''}`} />
+                </button>
+                <button onClick={handleShare}>
+                    <Share2 className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+    );
+}
 
 const CurriculumPage = () => {
     const [activeSemester, setActiveSemester] = useState('1학년 2학기');
@@ -124,3 +156,5 @@ const CurriculumPage = () => {
 };
 
 export default CurriculumPage;
+
+    
