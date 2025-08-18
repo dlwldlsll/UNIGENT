@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ArrowRight, Calendar, ChevronLeft, ChevronRight, Flame, Share2, Star } from 'lucide-react';
+import { Share2, Star } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const CourseCard = ({ title, tags, description, link }: { title: string; tags: string[]; description: string; link: string }) => {
@@ -89,43 +89,21 @@ const CurriculumPage = () => {
       </header>
       
       <main className="container mx-auto px-6 py-12">
-        <section className="flex flex-col md:flex-row items-center justify-between mb-12">
-          <div className="flex items-center gap-4 mb-8 md:mb-0">
-            <div className="bg-blue-100 p-3 rounded-md">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="#2563EB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M14 2V8H20" stroke="#2563EB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M12 18V12" stroke="#2563EB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M9 15H15" stroke="#2563EB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+        <section className="flex flex-col md:flex-row items-center mb-12">
+            <div className="flex items-center gap-4">
+              <div className="bg-blue-100 p-3 rounded-md">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="#2563EB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M14 2V8H20" stroke="#2563EB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M12 18V12" stroke="#2563EB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M9 15H15" stroke="#2563EB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <div>
+                <h2 className="text-3xl font-bold">커리큘럼 + AI AGENT</h2>
+                <p className="text-gray-600 mt-2">나의 학사 정보를 반영한 맞춤 커리큘럼,<br />이제 AI Agent를 이용해 가이드를 똑똑하게.</p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-3xl font-bold">커리큘럼 + AI AGENT</h2>
-              <p className="text-gray-600 mt-2">나의 학사 정보를 반영한 맞춤 커리큘럼,<br />이제 AI Agent를 이용해 가이드를 똑똑하게.</p>
-            </div>
-          </div>
-          <a href="/agent" className="relative w-full md:w-auto">
-             <div className="bg-blue-50 p-6 rounded-lg shadow-sm w-full md:w-[450px]">
-                <div className="flex items-center gap-3 text-sm text-gray-700 mb-3">
-                    <Calendar className="w-5 h-5 text-red-500" />
-                    <span>시간표가 고민된다면? 지난학기 우리 선배들의 시간표를</span>
-                </div>
-                <div className="flex items-center gap-3 text-sm text-gray-700 mb-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    <span>선배들이 가장 많이 선택한 직무분야 TOP3</span>
-                </div>
-                <div className="flex items-center gap-3 text-sm text-gray-700">
-                    <Flame className="w-5 h-5 text-orange-500" />
-                    <span>저번년도 우리과 가장 핫한 수업은?</span>
-                </div>
-            </div>
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2">
-                <button className="p-2 rounded-full bg-white shadow-md">
-                    <ChevronRight className="w-6 h-6 text-gray-600" />
-                </button>
-            </div>
-            <div className="absolute inset-y-0 -right-2 top-1/2 -translate-y-1/2 h-16 w-1 bg-gray-300 rounded-full" />
-          </a>
         </section>
 
         <section>

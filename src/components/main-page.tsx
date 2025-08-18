@@ -1,10 +1,32 @@
 'use client';
-
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { Bar, BarChart, CartesianGrid, LabelList, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import { Badge } from '@/components/ui/badge';
-import { Bell, Calendar as CalendarIcon } from 'lucide-react';
+import { Bell, Loader2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Image from 'next/image';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { generateNotificationAction } from '@/app/actions';
+import { useToast } from '@/hooks/use-toast';
+
+const formSchema = z.object({
+  userName: z.string().min(1, '이름을 입력해주세요.'),
+  courseName: z.string().min(1, '과목을 입력해주세요.'),
+  deadline: z.string().min(1, '마감기한을 입력해주세요.'),
+  taskDescription: z.string().min(1, '내용을 입력해주세요.'),
+  notificationPreferences: z.enum(['text', 'email'], {
+    required_error: '알림 방법을 선택해주세요.',
+  }),
+});
+type FormData = z.infer<typeof formSchema>;
 
 const Header = () => (
   <header className="bg-white/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
@@ -25,19 +47,186 @@ const Header = () => (
   </header>
 );
 
+const NotificationAgentModal = ({ selectedDate, onOpenChange }: { selectedDate: Date; onOpenChange: (open: boolean) => void; }) => {
+    const [generatedNotification, setGeneratedNotification] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const { toast } = useToast();
+  
+    const form = useForm<FormData>({
+      resolver: zodResolver(formSchema),
+      defaultValues: {
+        userName: '',
+        courseName: '',
+        deadline: selectedDate.toISOString().split('T')[0],
+        taskDescription: '',
+        notificationPreferences: 'text',
+      },
+    });
+  
+    const onSubmit = async (data: FormData) => {
+      setIsLoading(true);
+      setGeneratedNotification('');
+      try {
+        const result = await generateNotificationAction({
+          ...data,
+          notificationPreferences: data.notificationPreferences === 'text' ? '문자' : '메일'
+        });
+        setGeneratedNotification(result.notificationMessage);
+      } catch (error) {
+        console.error('Failed to generate notification:', error);
+        toast({
+          title: '오류',
+          description: '알림 생성에 실패했습니다. 다시 시도해주세요.',
+          variant: 'destructive',
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+  
+    return (
+        <DialogContent className="sm:max-w-[800px]">
+            <DialogHeader>
+                <DialogTitle>AI Agent: 맞춤 알림 생성</DialogTitle>
+            </DialogHeader>
+            <div className="grid md:grid-cols-2 gap-8">
+                <div>
+                    <Form {...form}>
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                            <FormField
+                                control={form.control}
+                                name="userName"
+                                render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>이름</FormLabel>
+                                    <FormControl>
+                                    <Input placeholder="홍길동" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="courseName"
+                                render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>과목</FormLabel>
+                                    <FormControl>
+                                    <Input placeholder="자료구조" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="deadline"
+                                render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>마감기한</FormLabel>
+                                    <FormControl>
+                                    <Input type="date" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="taskDescription"
+                                render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>내용</FormLabel>
+                                    <FormControl>
+                                    <Textarea placeholder="알고리즘 과제" className="resize-none" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="notificationPreferences"
+                                render={({ field }) => (
+                                <FormItem className="space-y-3">
+                                    <FormLabel>알림 받을 방법</FormLabel>
+                                    <FormControl>
+                                    <RadioGroup
+                                        onValueChange={field.onChange}
+                                        defaultValue={field.value}
+                                        className="flex space-x-4"
+                                    >
+                                        <FormItem className="flex items-center space-x-2">
+                                        <FormControl>
+                                            <RadioGroupItem value="text" />
+                                        </FormControl>
+                                        <FormLabel className="font-normal">문자</FormLabel>
+                                        </FormItem>
+                                        <FormItem className="flex items-center space-x-2">
+                                        <FormControl>
+                                            <RadioGroupItem value="email" />
+                                        </FormControl>
+                                        <FormLabel className="font-normal">메일</FormLabel>
+                                        </FormItem>
+                                    </RadioGroup>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                                )}
+                            />
+                            <Button type="submit" className="w-full" disabled={isLoading}>
+                                {isLoading ? (
+                                <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    생성 중...
+                                </>
+                                ) : (
+                                '생성'
+                                )}
+                            </Button>
+                        </form>
+                    </Form>
+                </div>
+                <div className="w-full h-full bg-gray-100 rounded-md p-4 flex items-center justify-center">
+                    {isLoading ? (
+                        <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+                    ) : (
+                        <p className="text-gray-500 text-center whitespace-pre-wrap">
+                        {generatedNotification || '이곳에 생성된 알림이 표시됩니다.'}
+                        </p>
+                    )}
+                </div>
+            </div>
+        </DialogContent>
+    );
+};
+
 const Calendar = () => {
-    const today = 16;
-    const days = Array.from({ length: 31 }, (_, i) => i + 1);
-    const firstDayOffset = 3; // Start day of the month (Wednesday)
-    const calendarDays = Array(firstDayOffset).fill(null).concat(days);
+    const today = new Date(2025, 4, 16);
+    const [currentMonth, setCurrentMonth] = useState(today.getMonth());
+    const [currentYear, setCurrentYear] = useState(today.getFullYear());
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+    const calendarDays = Array(firstDayOfMonth).fill(null).concat(days);
     
     const events = [4, 5, 11, 12, 18, 19, 25, 26];
+
+    const handleDateClick = (day: number) => {
+        const date = new Date(currentYear, currentMonth, day);
+        setSelectedDate(date);
+        setIsModalOpen(true);
+    };
 
     return (
         <Card className="w-full">
             <CardHeader>
                 <CardTitle className="flex items-center justify-between">
-                    <span className="text-xl font-bold">5월 <span className="text-gray-500 font-medium">2025년</span></span>
+                    <span className="text-xl font-bold">{new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' })} <span className="text-gray-500 font-medium">{currentYear}</span></span>
                 </CardTitle>
             </CardHeader>
             <CardContent>
@@ -46,25 +235,29 @@ const Calendar = () => {
                         <div key={day} className={day === '일' ? 'text-red-500' : (day === '토' ? 'text-blue-500' : '')}>{day}</div>
                     ))}
                 </div>
-                <div className="grid grid-cols-7 text-center text-sm">
-                    {calendarDays.map((day, index) => (
-                        <div key={index} className="py-1 relative">
-                            {day && (
-                                <span className={`w-8 h-8 flex items-center justify-center rounded-full cursor-pointer ${day === today ? 'bg-blue-500 text-white' : 'hover:bg-gray-100'} ${index % 7 === 0 ? 'text-red-500' : ''}`}>
-                                    {day}
-                                </span>
-                            )}
-                             {day && events.includes(day) && (
-                                <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-blue-400 rounded-full"></div>
-                            )}
-                        </div>
-                    ))}
-                </div>
+                <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                    <div className="grid grid-cols-7 text-center text-sm">
+                        {calendarDays.map((day, index) => (
+                            <div key={index} className="py-1 relative">
+                                {day && (
+                                    <DialogTrigger asChild>
+                                        <button onClick={() => handleDateClick(day)} className={`w-8 h-8 flex items-center justify-center rounded-full cursor-pointer ${day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear() ? 'bg-blue-500 text-white' : 'hover:bg-gray-100'} ${(firstDayOfMonth + day - 1) % 7 === 0 ? 'text-red-500' : ''}`}>
+                                            {day}
+                                        </button>
+                                    </DialogTrigger>
+                                )}
+                                {day && events.includes(day) && (
+                                    <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-blue-400 rounded-full pointer-events-none"></div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                    {selectedDate && <NotificationAgentModal selectedDate={selectedDate} onOpenChange={setIsModalOpen} />}
+                </Dialog>
             </CardContent>
         </Card>
     );
 };
-
 
 const ProgramSchedule = () => {
     const schedules = [
