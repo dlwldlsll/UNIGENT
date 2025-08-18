@@ -126,8 +126,8 @@ const CreditStatusChart = () => {
                             <LabelList 
                                 dataKey="value" 
                                 position="top" 
-                                formatter={(value: number, entry: any) => {
-                                  const item = data.find(d => d.name === entry.name);
+                                formatter={(value: number, _entry: any, index: number) => {
+                                  const item = data[index];
                                   return item ? `${item.value}/${item.total}` : '';
                                 }}
                                 style={{ fontSize: 14, fill: '#3B82F6', fontWeight: 500 }}
