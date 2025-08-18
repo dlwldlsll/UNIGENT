@@ -78,12 +78,12 @@ const CurriculumPage = () => {
     <div className="min-h-screen bg-[#F7F9FF]">
       <header className="bg-white shadow-sm">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-blue-600">UNIGENT</h1>
+          <a href="/" className="text-2xl font-bold text-blue-600">UNIGENT</a>
           <nav className="hidden md:flex items-center space-x-8 text-gray-600">
-            <a href="#" className="hover:text-blue-600">마이페이지</a>
+            <a href="/" className="hover:text-blue-600">마이페이지</a>
             <a href="#" className="hover:text-blue-600">프로그램</a>
             <a href="#" className="hover:text-blue-600">진로/취업</a>
-            <a href="#" className="text-blue-600 font-bold">커리큘럼agent</a>
+            <a href="/curriculum" className="text-blue-600 font-bold">커리큘럼agent</a>
           </nav>
         </div>
       </header>
@@ -104,7 +104,7 @@ const CurriculumPage = () => {
               <p className="text-gray-600 mt-2">나의 학사 정보를 반영한 맞춤 커리큘럼,<br />이제 AI Agent를 이용해 가이드를 똑똑하게.</p>
             </div>
           </div>
-          <div className="relative w-full md:w-auto">
+          <a href="/agent" className="relative w-full md:w-auto">
              <div className="bg-blue-50 p-6 rounded-lg shadow-sm w-full md:w-[450px]">
                 <div className="flex items-center gap-3 text-sm text-gray-700 mb-3">
                     <Calendar className="w-5 h-5 text-red-500" />
@@ -125,7 +125,7 @@ const CurriculumPage = () => {
                 </button>
             </div>
             <div className="absolute inset-y-0 -right-2 top-1/2 -translate-y-1/2 h-16 w-1 bg-gray-300 rounded-full" />
-          </div>
+          </a>
         </section>
 
         <section>
@@ -156,5 +156,3 @@ const CurriculumPage = () => {
 };
 
 export default CurriculumPage;
-
-    
