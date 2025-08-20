@@ -47,7 +47,7 @@ const Header = () => (
   </header>
 );
 
-const NotificationAgentModal = ({ selectedDate, onOpenChange }: { selectedDate: Date; onOpenChange: (open: boolean) => void; }) => {
+const NotificationAgentModal = ({ selectedDate, onOpenChange, onNotificationSave }: { selectedDate: Date; onOpenChange: (open: boolean) => void; onNotificationSave: (date: Date) => void; }) => {
     const [generatedNotification, setGeneratedNotification] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const { toast } = useToast();
@@ -72,6 +72,11 @@ const NotificationAgentModal = ({ selectedDate, onOpenChange }: { selectedDate: 
           notificationPreferences: data.notificationPreferences === 'text' ? '문자' : '메일'
         });
         setGeneratedNotification(result.notificationMessage);
+        onNotificationSave(selectedDate);
+        toast({
+            title: '알림 저장됨',
+            description: `${selectedDate.toLocaleDateString()}의 일정이 저장되었습니다.`,
+        });
       } catch (error) {
         console.error('Failed to generate notification:', error);
         toast({
@@ -179,10 +184,10 @@ const NotificationAgentModal = ({ selectedDate, onOpenChange }: { selectedDate: 
                                 {isLoading ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    생성 중...
+                                    생성 및 저장 중...
                                 </>
                                 ) : (
-                                '생성'
+                                '생성 및 저장'
                                 )}
                             </Button>
                         </form>
@@ -208,18 +213,39 @@ const Calendar = () => {
     const [currentYear, setCurrentYear] = useState(today.getFullYear());
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [events, setEvents] = useState<Date[]>([
+        new Date(2025, 4, 4), new Date(2025, 4, 5), new Date(2025, 4, 11), 
+        new Date(2025, 4, 12), new Date(2025, 4, 18), new Date(2025, 4, 19), 
+        new Date(2025, 4, 25), new Date(2025, 4, 26)
+    ]);
 
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
     const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
     const calendarDays = Array(firstDayOfMonth).fill(null).concat(days);
     
-    const events = [4, 5, 11, 12, 18, 19, 25, 26];
-
     const handleDateClick = (day: number) => {
         const date = new Date(currentYear, currentMonth, day);
         setSelectedDate(date);
         setIsModalOpen(true);
+    };
+
+    const handleNotificationSave = (date: Date) => {
+        setEvents(prevEvents => {
+            if (!prevEvents.some(eventDate => eventDate.getTime() === date.getTime())) {
+                return [...prevEvents, date];
+            }
+            return prevEvents;
+        });
+    };
+
+    const hasEventOn = (day: number) => {
+        const date = new Date(currentYear, currentMonth, day);
+        return events.some(eventDate => 
+            eventDate.getFullYear() === date.getFullYear() &&
+            eventDate.getMonth() === date.getMonth() &&
+            eventDate.getDate() === date.getDate()
+        );
     };
 
     return (
@@ -238,7 +264,7 @@ const Calendar = () => {
                 <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
                     <div className="grid grid-cols-7 text-center text-sm">
                         {calendarDays.map((day, index) => (
-                            <div key={index} className="py-1 relative">
+                            <div key={index} className="py-1 relative flex justify-center">
                                 {day && (
                                     <DialogTrigger asChild>
                                         <button onClick={() => handleDateClick(day)} className={`w-8 h-8 flex items-center justify-center rounded-full cursor-pointer ${day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear() ? 'bg-blue-500 text-white' : 'hover:bg-gray-100'} ${(firstDayOfMonth + day - 1) % 7 === 0 ? 'text-red-500' : ''}`}>
@@ -246,13 +272,13 @@ const Calendar = () => {
                                         </button>
                                     </DialogTrigger>
                                 )}
-                                {day && events.includes(day) && (
-                                    <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-blue-400 rounded-full pointer-events-none"></div>
+                                {day && hasEventOn(day) && (
+                                    <div className="absolute bottom-1 w-1 h-1 bg-blue-400 rounded-full pointer-events-none"></div>
                                 )}
                             </div>
                         ))}
                     </div>
-                    {selectedDate && <NotificationAgentModal selectedDate={selectedDate} onOpenChange={setIsModalOpen} />}
+                    {selectedDate && <NotificationAgentModal selectedDate={selectedDate} onOpenChange={setIsModalOpen} onNotificationSave={handleNotificationSave} />}
                 </Dialog>
             </CardContent>
         </Card>
