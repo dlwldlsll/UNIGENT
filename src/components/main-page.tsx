@@ -368,7 +368,7 @@ const CreditStatusChart = () => {
 
 const ProgramCard = ({ imgSrc, title, category, period, personnel }: { imgSrc: string; title: string; category: string; period: string; personnel: string }) => (
     <Card className="overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
-        <Image src={imgSrc} alt={title} width={400} height={200} className="w-full h-40 object-cover" data-ai-hint="company poster"/>
+        <Image src={imgSrc} alt={title} width={400} height={200} className="w-full h-40 object-cover" />
         <CardContent className="p-4">
             <h3 className="font-bold text-lg mb-2">{title}</h3>
             <div className="text-sm space-y-1 text-gray-600">
@@ -383,28 +383,28 @@ const ProgramCard = ({ imgSrc, title, category, period, personnel }: { imgSrc: s
 const RecommendedPrograms = () => {
     const programs = [
         {
-            imgSrc: 'https://placehold.co/400x200.png',
+            imgSrc: '/images/program_1.png',
             title: '정보처리기사 필기 특강',
             category: '취업 프로그램',
             period: '2025.05.15~2025.05.23',
             personnel: '50명'
         },
         {
-            imgSrc: 'https://placehold.co/400x200.png',
+            imgSrc: '/images/program_2.png',
             title: 'TOPCIT 정기평가 수요조사',
             category: '취업 프로그램',
             period: '2025.04.04~2025.04.23',
             personnel: '35명'
         },
         {
-            imgSrc: 'https://placehold.co/400x200.png',
+            imgSrc: '/images/program_3.png',
             title: '(대기업) 2025 합동 채용설명회',
             category: '취업 프로그램',
             period: '2025.05.13~2025.05.27',
             personnel: '제한없음'
         },
         {
-            imgSrc: 'https://placehold.co/400x200.png',
+            imgSrc: '/images/program_4.png',
             title: '학습성과 경진대회',
             category: '행사 프로그램',
             period: '2025.05.12~2025.05.30',
