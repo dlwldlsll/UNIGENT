@@ -7,7 +7,6 @@ import { Bar, BarChart, CartesianGrid, LabelList, ResponsiveContainer, XAxis, YA
 import { Badge } from '@/components/ui/badge';
 import { Bell, Loader2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import Image from 'next/image';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -368,7 +367,7 @@ const CreditStatusChart = () => {
 
 const ProgramCard = ({ imgSrc, title, category, period, personnel }: { imgSrc: string; title: string; category: string; period: string; personnel: string }) => (
     <Card className="overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
-        <Image src={imgSrc} alt={title} width={400} height={200} className="w-full h-40 object-cover" />
+        <img src={imgSrc} alt={title} className="w-full h-40 object-cover" />
         <CardContent className="p-4">
             <h3 className="font-bold text-lg mb-2">{title}</h3>
             <div className="text-sm space-y-1 text-gray-600">
