@@ -72,10 +72,15 @@ const NotificationAgentModal = ({ selectedDate, onOpenChange, onNotificationSave
           notificationPreferences: data.notificationPreferences === 'text' ? '문자' : '메일'
         });
         setGeneratedNotification(result.notificationMessage);
-        onNotificationSave(new Date(data.deadline));
+        
+        // Timezone-safe date creation
+        const [year, month, day] = data.deadline.split('-').map(Number);
+        const savedDate = new Date(year, month - 1, day);
+
+        onNotificationSave(savedDate);
         toast({
             title: '알림 저장됨',
-            description: `${new Date(data.deadline).toLocaleDateString()}의 일정이 저장되었습니다.`,
+            description: `${savedDate.toLocaleDateString()}의 일정이 저장되었습니다.`,
         });
       } catch (error) {
         console.error('Failed to generate notification:', error);
@@ -440,3 +445,5 @@ export default function MainPage() {
     </div>
   );
 }
+
+    
