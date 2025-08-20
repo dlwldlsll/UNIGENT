@@ -367,7 +367,7 @@ const CreditStatusChart = () => {
 
 const ProgramCard = ({ imgSrc, title, category, period, personnel }: { imgSrc: string; title: string; category: string; period: string; personnel: string }) => (
     <Card className="overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
-        <img src={imgSrc} alt={title} className="w-full h-40 object-cover" />
+        <img src={imgSrc} alt={title} className="w-full h-40 object-cover" data-ai-hint="online course programming" />
         <CardContent className="p-4">
             <h3 className="font-bold text-lg mb-2">{title}</h3>
             <div className="text-sm space-y-1 text-gray-600">
