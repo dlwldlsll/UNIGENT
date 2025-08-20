@@ -72,10 +72,10 @@ const NotificationAgentModal = ({ selectedDate, onOpenChange, onNotificationSave
           notificationPreferences: data.notificationPreferences === 'text' ? '문자' : '메일'
         });
         setGeneratedNotification(result.notificationMessage);
-        onNotificationSave(selectedDate);
+        onNotificationSave(new Date(data.deadline));
         toast({
             title: '알림 저장됨',
-            description: `${selectedDate.toLocaleDateString()}의 일정이 저장되었습니다.`,
+            description: `${new Date(data.deadline).toLocaleDateString()}의 일정이 저장되었습니다.`,
         });
       } catch (error) {
         console.error('Failed to generate notification:', error);
@@ -233,7 +233,8 @@ const Calendar = () => {
     const handleNotificationSave = (date: Date) => {
         setEvents(prevEvents => {
             if (!prevEvents.some(eventDate => eventDate.getTime() === date.getTime())) {
-                return [...prevEvents, date];
+                const newEvents = [...prevEvents, date];
+                return newEvents;
             }
             return prevEvents;
         });
