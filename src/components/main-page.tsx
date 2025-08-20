@@ -383,7 +383,7 @@ const ProgramCard = ({ imgSrc, title, category, period, personnel }: { imgSrc: s
 const RecommendedPrograms = () => {
     const programs = [
         {
-            imgSrc: 'https://placehold.co/400x200.png',
+            imgSrc: '/images/gen_1.png',
             title: '정보처리기사 필기 특강',
             category: '취업 프로그램',
             period: '2025.05.15~2025.05.23',
