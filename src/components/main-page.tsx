@@ -390,14 +390,14 @@ const RecommendedPrograms = () => {
             personnel: '50명'
         },
         {
-            imgSrc: '/images/frame2.png',
+            imgSrc: '/images/frame3.png',
             title: 'TOPCIT 정기평가 수요조사',
             category: '취업 프로그램',
             period: '2025.04.04~2025.04.23',
             personnel: '35명'
         },
         {
-            imgSrc: '/images/frame3.png',
+            imgSrc: '/images/frame.png',
             title: '(대기업) 2025 합동 채용설명회',
             category: '취업 프로그램',
             period: '2025.05.13~2025.05.27',
