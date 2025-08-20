@@ -236,8 +236,9 @@ const Calendar = () => {
 
     const handleNotificationSave = (date: Date) => {
         setEvents(prevEvents => {
-            if (!prevEvents.some(eventDate => eventDate.getTime() === date.getTime())) {
-                const newEvents = [...prevEvents, date];
+            const newDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            if (!prevEvents.some(eventDate => eventDate.getTime() === newDate.getTime())) {
+                const newEvents = [...prevEvents, newDate];
                 return newEvents;
             }
             return prevEvents;
@@ -382,28 +383,28 @@ const ProgramCard = ({ imgSrc, title, category, period, personnel }: { imgSrc: s
 const RecommendedPrograms = () => {
     const programs = [
         {
-            imgSrc: '/images/program_1.jpg',
+            imgSrc: '/images/frame.png',
             title: '정보처리기사 필기 특강',
             category: '취업 프로그램',
             period: '2025.05.15~2025.05.23',
             personnel: '50명'
         },
         {
-            imgSrc: '/images/program_2.jpg',
+            imgSrc: '/images/frame2.png',
             title: 'TOPCIT 정기평가 수요조사',
             category: '취업 프로그램',
             period: '2025.04.04~2025.04.23',
             personnel: '35명'
         },
         {
-            imgSrc: '/images/program_3.jpg',
+            imgSrc: '/images/frame3.png',
             title: '(대기업) 2025 합동 채용설명회',
             category: '취업 프로그램',
             period: '2025.05.13~2025.05.27',
             personnel: '제한없음'
         },
         {
-            imgSrc: '/images/program_4.jpg',
+            imgSrc: '/images/frame4.png',
             title: '학습성과 경진대회',
             category: '행사 프로그램',
             period: '2025.05.12~2025.05.30',
