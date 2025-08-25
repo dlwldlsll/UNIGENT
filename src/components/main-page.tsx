@@ -387,7 +387,7 @@ const ProgramCard = ({ imgSrc, title, category, period, personnel, link }: { img
 const RecommendedPrograms = () => {
     const programs = [
         {
-            imgSrc: '/images/frame.png',
+            imgSrc: '/images/1st.png',
             title: '정보처리기사 필기 특강',
             category: '취업 프로그램',
             period: '2025.05.15~2025.05.23',
@@ -395,7 +395,7 @@ const RecommendedPrograms = () => {
             link: '#'
         },
         {
-            imgSrc: '/images/frame2.png',
+            imgSrc: '/images/2nd.png',
             title: 'TOPCIT 정기평가 수요조사',
             category: '취업 프로그램',
             period: '2025.04.04~2025.04.23',
@@ -403,7 +403,7 @@ const RecommendedPrograms = () => {
             link: '#'
         },
         {
-            imgSrc: '/images/frame3.png',
+            imgSrc: '/images/3rd.png',
             title: '(대기업) 2025 합동 채용설명회',
             category: '취업 프로그램',
             period: '2025.05.13~2025.05.27',
@@ -411,7 +411,7 @@ const RecommendedPrograms = () => {
             link: '#'
         },
         {
-            imgSrc: '/images/frame4.png',
+            imgSrc: '/images/4th.png',
             title: '학습성과 경진대회',
             category: '행사 프로그램',
             period: '2025.05.12~2025.05.30',
