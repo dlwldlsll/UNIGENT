@@ -80,7 +80,7 @@ const CurriculumPage = () => {
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <a href="/" className="text-2xl font-bold text-blue-600">UNIGENT</a>
           <nav className="hidden md:flex items-center space-x-8 text-gray-600">
-            <a href="/" className="hover:text-blue-600">마이페이지</a>
+            <a href="/my-page" className="hover:text-blue-600">마이페이지</a>
             <a href="#" className="hover:text-blue-600">프로그램</a>
             <a href="#" className="hover:text-blue-600">진로/취업</a>
             <a href="/curriculum" className="text-blue-600 font-bold">커리큘럼agent</a>

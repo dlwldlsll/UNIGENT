@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Bar, BarChart, CartesianGrid, LabelList, ResponsiveContainer, XAxis, YAxis } from 'recharts';
-import { Badge } from '@/components/ui/badge';
 import { Bell, Loader2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -31,10 +30,10 @@ type FormData = z.infer<typeof formSchema>;
 const Header = () => (
   <header className="bg-white/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
     <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-      <h1 className="text-2xl font-bold text-blue-600">UNIGENT</h1>
+      <a href="/" className="text-2xl font-bold text-blue-600">UNIGENT</a>
       <div className="flex items-center space-x-8">
         <nav className="hidden md:flex items-center space-x-8 text-gray-600">
-          <a href="#" className="font-bold text-gray-800">마이페이지</a>
+          <a href="/my-page" className="hover:text-blue-600">마이페이지</a>
           <a href="#" className="hover:text-blue-600">프로그램</a>
           <a href="/career" className="hover:text-blue-600">진로/취업</a>
           <a href="/curriculum" className="hover:text-blue-600">커리큘럼agent</a>
@@ -433,13 +432,13 @@ export default function MainPage() {
         <Header />
         <main className="container mx-auto px-6 py-12 space-y-12">
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-                <div className="lg:col-span-2">
+                <div className="lg:col-span-2 h-full">
                     <Calendar />
                 </div>
-                <div className="lg:col-span-1">
+                <div className="lg:col-span-1 h-full">
                     <ProgramSchedule />
                 </div>
-                <div className="lg:col-span-2">
+                <div className="lg:col-span-2 h-full">
                     <CreditStatusChart />
                 </div>
             </div>
@@ -448,7 +447,3 @@ export default function MainPage() {
     </div>
   );
 }
-
-    
-
-    
