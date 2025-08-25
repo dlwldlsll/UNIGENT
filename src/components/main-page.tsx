@@ -366,8 +366,9 @@ const CreditStatusChart = () => {
     );
 };
 
-const ProgramCard = ({ imgSrc, title, category, period, personnel }: { imgSrc: string; title: string; category: string; period: string; personnel: string }) => (
-    <Card className="overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
+const ProgramCard = ({ imgSrc, title, category, period, personnel, link }: { imgSrc: string; title: string; category: string; period: string; personnel: string; link: string; }) => (
+  <a href={link} className="block group">
+    <Card className="overflow-hidden shadow-sm group-hover:shadow-lg transition-shadow h-full">
         <div className="relative w-full h-40">
             <Image src={imgSrc} alt={title} layout="fill" objectFit="cover" data-ai-hint="online course programming" />
         </div>
@@ -380,6 +381,7 @@ const ProgramCard = ({ imgSrc, title, category, period, personnel }: { imgSrc: s
             </div>
         </CardContent>
     </Card>
+  </a>
 );
 
 const RecommendedPrograms = () => {
@@ -389,28 +391,32 @@ const RecommendedPrograms = () => {
             title: '정보처리기사 필기 특강',
             category: '취업 프로그램',
             period: '2025.05.15~2025.05.23',
-            personnel: '50명'
+            personnel: '50명',
+            link: '#'
         },
         {
             imgSrc: '/images/frame2.png',
             title: 'TOPCIT 정기평가 수요조사',
             category: '취업 프로그램',
             period: '2025.04.04~2025.04.23',
-            personnel: '35명'
+            personnel: '35명',
+            link: '#'
         },
         {
             imgSrc: '/images/frame3.png',
             title: '(대기업) 2025 합동 채용설명회',
             category: '취업 프로그램',
             period: '2025.05.13~2025.05.27',
-            personnel: '제한없음'
+            personnel: '제한없음',
+            link: '#'
         },
         {
             imgSrc: '/images/frame4.png',
             title: '학습성과 경진대회',
             category: '행사 프로그램',
             period: '2025.05.12~2025.05.30',
-            personnel: '제한없음'
+            personnel: '제한없음',
+            link: '#'
         }
     ];
 
