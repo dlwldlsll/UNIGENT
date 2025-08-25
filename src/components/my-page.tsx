@@ -108,13 +108,13 @@ const MyPage = () => {
                   회원 정보
                 </a>
                 <a
-                  href="#"
+                  href="/my-page"
                   className="block px-4 py-2 text-blue-600 font-bold bg-blue-50 rounded-md"
                 >
                   커리어 설정
                 </a>
                 <a
-                  href="#"
+                  href="/portfolio"
                   className="block px-4 py-2 text-gray-700 rounded-md hover:bg-gray-100"
                 >
                   포트폴리오
