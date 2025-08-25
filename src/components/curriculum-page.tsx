@@ -65,14 +65,25 @@ const CurriculumPage = () => {
     const [activeSemester, setActiveSemester] = useState('1학년 2학기');
     const semesters = ['1학년 1학기', '1학년 2학기', '2학년 1학기', '2학년 2학기', '3학년 1학기', '3학년 2학기', '4학년 1학기', '4학년 2학기', '기타'];
     
-    const courses = [
-        { title: '데이터와 코딩', tags: ['조용윤 교수님', '2학점', '필수교양', '파이썬 기초'], description: '데이터 분석의 기초와 파이썬에 대해 공부할 수 있는 과목입니다.', link: '#' },
-        { title: '어드벤처 디자인', tags: ['신창선 교수님', '3학점', '필수교양', '사업 시뮬레이션'], description: '가설과 간단한 시험 계획을 세워 아이템을 만들어보는 과목입니다.', link: '#' },
-        { title: '데이터 과학 이해', tags: ['구단영 교수님', '3학점', '필수교양', '데이터 사이언스'], description: '데이터 사이언스 기초에 대해 배울 수 있는 과목입니다.', link: '#' },
-        { title: '정량적 사고와 컴퓨팅 사고', tags: ['주아리 교수님', '2학점', '공통교양', '파이썬 기초'], description: '파이썬의 기초에 대해 학습할 수 있는 과목입니다. 다.', link: '#' },
-        { title: '발명과 특허', tags: ['장가연 교수님', '3학점', '필수교양', '특허'], description: '공학 분야의 특허와 관련된 내용을 학습할 수 있는 과목입니다.', link: '#' },
-        { title: '이공계생을 위한 인문학', tags: ['이지민 교수님', '2학점', '선택교양', '인문학'], description: '이공계생들이 인문학에 대해 흥미롭게 충분히 학습할 수 있습니다.', link: '#' },
-    ];
+    const semesterCourses: { [key: string]: { title: string; tags: string[]; description: string; link: string }[] } = {
+        '1학년 2학기': [
+            { title: '데이터와 코딩', tags: ['조용윤 교수님', '2학점', '필수교양', '파이썬 기초'], description: '데이터 분석의 기초와 파이썬에 대해 공부할 수 있는 과목입니다.', link: '#' },
+            { title: '어드벤처 디자인', tags: ['신창선 교수님', '3학점', '필수교양', '사업 시뮬레이션'], description: '가설과 간단한 시험 계획을 세워 아이템을 만들어보는 과목입니다.', link: '#' },
+            { title: '데이터 과학 이해', tags: ['구단영 교수님', '3학점', '필수교양', '데이터 사이언스'], description: '데이터 사이언스 기초에 대해 배울 수 있는 과목입니다.', link: '#' },
+            { title: '정량적 사고와 컴퓨팅 사고', tags: ['주아리 교수님', '2학점', '공통교양', '파이썬 기초'], description: '파이썬의 기초에 대해 학습할 수 있는 과목입니다. 다.', link: '#' },
+            { title: '발명과 특허', tags: ['장가연 교수님', '3학점', '필수교양', '특허'], description: '공학 분야의 특허와 관련된 내용을 학습할 수 있는 과목입니다.', link: '#' },
+            { title: '이공계생을 위한 인문학', tags: ['이지민 교수님', '2학점', '선택교양', '인문학'], description: '이공계생들이 인문학에 대해 흥미롭게 충분히 학습할 수 있습니다.', link: '#' },
+        ],
+        '2학년 2학기': [
+            { title: '자료구조 및 알고리즘', tags: ['박효림 교수님', '3학점', '전공선택'], description: '컴퓨터 과학의 핵심인 자료구조와 알고리즘에 대해 심도있게 학습합니다.', link: '#' },
+            { title: 'JAVA', tags: ['조용윤 교수님', '3학점', '전공선택'], description: '객체 지향 프로그래밍 언어인 Java의 기본 문법과 활용법을 배웁니다.', link: '#' },
+            { title: '디지털논리', tags: ['박철영 교수님', '3학점', '전공선택'], description: '컴퓨터의 기본 구성 요소인 디지털 논리 회로의 원리를 이해합니다.', link: '#' },
+            { title: '선형대수', tags: ['시간강사', '3학점', '전공선택'], description: '벡터, 행렬 등 인공지능과 데이터 과학의 기반이 되는 선형대수학을 학습합니다.', link: '#' },
+            { title: '빅데이터 기초수학', tags: ['김가연 교수님', '3학점', '전공선택'], description: '빅데이터 분석에 필요한 핵심적인 수학적 개념을 다룹니다.', link: '#' },
+        ],
+    };
+
+    const courses = semesterCourses[activeSemester] || [];
 
   return (
     <div className="min-h-screen bg-[#F7F9FF]">
@@ -122,9 +133,13 @@ const CurriculumPage = () => {
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {courses.map((course, index) => (
-                    <CourseCard key={index} {...course} />
-                ))}
+                {courses.length > 0 ? (
+                    courses.map((course, index) => (
+                        <CourseCard key={index} {...course} />
+                    ))
+                ) : (
+                    <p className="col-span-full text-center text-gray-500">해당 학기의 수업 정보가 없습니다.</p>
+                )}
             </div>
         </section>
 
