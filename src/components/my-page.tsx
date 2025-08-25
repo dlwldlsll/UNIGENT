@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Home, Search, X, ChevronDown, ChevronRight } from 'lucide-react';
+import { Home, Search, X } from 'lucide-react';
 
 const ChevronDownIcon = () => (
   <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
@@ -21,6 +21,7 @@ const ChevronRightIcon = () => (
 
 const MyPage = () => {
   const [activeCategory, setActiveCategory] = useState<string | null>('개발/IT');
+  const [selectedJobs, setSelectedJobs] = useState<string[]>(['백엔드 개발', '프론트엔드 개발']);
 
   const categories = [
     {
@@ -36,9 +37,9 @@ const MyPage = () => {
         '임베디드 개발',
       ],
     },
-    { name: '디자인/UX', subCategories: [] },
-    { name: '마케팅/광고', subCategories: [] },
-    { name: '경영/사무', subCategories: [] },
+    { name: '디자인/UX', subCategories: ['UI/UX 디자인', '그래픽 디자인'] },
+    { name: '마케팅/광고', subCategories: ['디지털 마케팅', '콘텐츠 마케팅'] },
+    { name: '경영/사무', subCategories: ['사업 기획', '인사'] },
     { name: '교육/강의', subCategories: [] },
     { name: '연구/R&D', subCategories: [] },
     { name: '서비스/영업', subCategories: [] },
@@ -47,6 +48,17 @@ const MyPage = () => {
   const handleCategoryClick = (category: string) => {
     setActiveCategory(activeCategory === category ? null : category);
   };
+
+  const handleSelectJob = (job: string) => {
+    if (selectedJobs.length < 3 && !selectedJobs.includes(job)) {
+      setSelectedJobs([...selectedJobs, job]);
+    }
+  };
+
+  const handleRemoveJob = (jobToRemove: string) => {
+    setSelectedJobs(selectedJobs.filter((job) => job !== jobToRemove));
+  };
+
 
   return (
     <div className="min-h-screen bg-[#F7F9FF]">
@@ -119,18 +131,14 @@ const MyPage = () => {
                   <div className="p-4 border rounded-md min-h-[100px]">
                     <p className="text-sm text-gray-600 mb-2">선택한 직무 :</p>
                     <div className="flex flex-wrap gap-2">
-                      <Badge variant="secondary" className="bg-gray-200 text-gray-800">
-                        백엔드 개발
-                        <Button variant="ghost" size="icon" className="h-4 w-4 ml-1">
-                          <X className="h-3 w-3" />
-                        </Button>
-                      </Badge>
-                      <Badge variant="secondary" className="bg-gray-200 text-gray-800">
-                        프론트엔드 개발
-                        <Button variant="ghost" size="icon" className="h-4 w-4 ml-1">
-                          <X className="h-3 w-3" />
-                        </Button>
-                      </Badge>
+                      {selectedJobs.map((job) => (
+                        <Badge key={job} variant="secondary" className="bg-gray-200 text-gray-800">
+                          {job}
+                          <Button variant="ghost" size="icon" className="h-4 w-4 ml-1" onClick={() => handleRemoveJob(job)}>
+                            <X className="h-3 w-3" />
+                          </Button>
+                        </Badge>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -156,7 +164,11 @@ const MyPage = () => {
                         <div className='pt-4'>
                             <div className='flex flex-wrap gap-2'>
                                 {categories.find(c => c.name === activeCategory)?.subCategories.map(sub => (
-                                    <Badge key={sub} className="bg-blue-100 text-blue-700 font-normal py-2 px-4 rounded-md cursor-pointer hover:bg-blue-200">
+                                    <Badge 
+                                        key={sub} 
+                                        className="bg-blue-100 text-blue-700 font-normal py-2 px-4 rounded-md cursor-pointer hover:bg-blue-200"
+                                        onClick={() => handleSelectJob(sub)}
+                                    >
                                         {sub}
                                     </Badge>
                                 ))}
