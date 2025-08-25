@@ -386,28 +386,28 @@ const ProgramCard = ({ imgSrc, title, category, period, personnel }: { imgSrc: s
 const RecommendedPrograms = () => {
     const programs = [
         {
-            imgSrc: 'https://i.ibb.co/bX124k6/1.png',
+            imgSrc: '/images/frame.png',
             title: '정보처리기사 필기 특강',
             category: '취업 프로그램',
             period: '2025.05.15~2025.05.23',
             personnel: '50명'
         },
         {
-            imgSrc: 'https://i.ibb.co/yQ5pTC0/2.png',
+            imgSrc: '/images/frame2.png',
             title: 'TOPCIT 정기평가 수요조사',
             category: '취업 프로그램',
             period: '2025.04.04~2025.04.23',
             personnel: '35명'
         },
         {
-            imgSrc: 'https://i.ibb.co/bX124k6/1.png',
+            imgSrc: '/images/frame3.png',
             title: '(대기업) 2025 합동 채용설명회',
             category: '취업 프로그램',
             period: '2025.05.13~2025.05.27',
             personnel: '제한없음'
         },
         {
-            imgSrc: 'https://i.ibb.co/n6R9p05/3.png',
+            imgSrc: '/images/frame4.png',
             title: '학습성과 경진대회',
             category: '행사 프로그램',
             period: '2025.05.12~2025.05.30',
@@ -448,5 +448,7 @@ export default function MainPage() {
     </div>
   );
 }
+
+    
 
     
