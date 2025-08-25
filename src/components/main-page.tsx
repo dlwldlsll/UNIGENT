@@ -15,6 +15,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { generateNotificationAction } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
+import Image from 'next/image';
 
 const formSchema = z.object({
   userName: z.string().min(1, '이름을 입력해주세요.'),
@@ -35,7 +36,7 @@ const Header = () => (
         <nav className="hidden md:flex items-center space-x-8 text-gray-600">
           <a href="#" className="font-bold text-gray-800">마이페이지</a>
           <a href="#" className="hover:text-blue-600">프로그램</a>
-          <a href="#" className="hover:text-blue-600">진로/취업</a>
+          <a href="/career" className="hover:text-blue-600">진로/취업</a>
           <a href="/curriculum" className="hover:text-blue-600">커리큘럼agent</a>
         </nav>
         <button className="text-gray-500 hover:text-gray-700">
@@ -255,7 +256,7 @@ const Calendar = () => {
     };
 
     return (
-        <Card className="w-full">
+        <Card className="w-full h-full">
             <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                     <span className="text-xl font-bold">{new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' })} <span className="text-gray-500 font-medium">{currentYear}</span></span>
@@ -299,7 +300,7 @@ const ProgramSchedule = () => {
     ];
 
     return (
-        <Card className="w-full">
+        <Card className="w-full h-full">
             <CardHeader>
                 <CardTitle className="text-lg">프로그램 일정</CardTitle>
             </CardHeader>
@@ -326,8 +327,8 @@ const CreditStatusChart = () => {
     ];
 
     return (
-        <Card className="col-span-1 md:col-span-2 bg-[#F0F5FF]">
-            <CardContent className="p-4 h-[300px]">
+        <Card className="col-span-1 md:col-span-2 bg-[#F0F5FF] h-full">
+            <CardContent className="p-4 h-full">
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data} margin={{ top: 20, right: 20, left: 0, bottom: 5 }}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} />
@@ -368,7 +369,9 @@ const CreditStatusChart = () => {
 
 const ProgramCard = ({ imgSrc, title, category, period, personnel }: { imgSrc: string; title: string; category: string; period: string; personnel: string }) => (
     <Card className="overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
-        <img src={imgSrc} alt={title} className="w-full h-40 object-cover" data-ai-hint="online course programming" />
+        <div className="relative w-full h-40">
+            <Image src={imgSrc} alt={title} layout="fill" objectFit="cover" data-ai-hint="online course programming" />
+        </div>
         <CardContent className="p-4">
             <h3 className="font-bold text-lg mb-2">{title}</h3>
             <div className="text-sm space-y-1 text-gray-600">
@@ -383,28 +386,28 @@ const ProgramCard = ({ imgSrc, title, category, period, personnel }: { imgSrc: s
 const RecommendedPrograms = () => {
     const programs = [
         {
-            imgSrc: '/images/frame.png',
+            imgSrc: 'https://i.ibb.co/bX124k6/1.png',
             title: '정보처리기사 필기 특강',
             category: '취업 프로그램',
             period: '2025.05.15~2025.05.23',
             personnel: '50명'
         },
         {
-            imgSrc: '/images/frame3.png',
+            imgSrc: 'https://i.ibb.co/yQ5pTC0/2.png',
             title: 'TOPCIT 정기평가 수요조사',
             category: '취업 프로그램',
             period: '2025.04.04~2025.04.23',
             personnel: '35명'
         },
         {
-            imgSrc: '/images/frame.png',
+            imgSrc: 'https://i.ibb.co/bX124k6/1.png',
             title: '(대기업) 2025 합동 채용설명회',
             category: '취업 프로그램',
             period: '2025.05.13~2025.05.27',
             personnel: '제한없음'
         },
         {
-            imgSrc: '/images/frame4.png',
+            imgSrc: 'https://i.ibb.co/n6R9p05/3.png',
             title: '학습성과 경진대회',
             category: '행사 프로그램',
             period: '2025.05.12~2025.05.30',
@@ -429,14 +432,14 @@ export default function MainPage() {
     <div className="min-h-screen bg-gray-50">
         <Header />
         <main className="container mx-auto px-6 py-12 space-y-12">
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                <div className="lg:col-span-2 flex flex-col gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                <div className="lg:col-span-2">
                     <Calendar />
                 </div>
-                <div className="lg:col-span-1 flex flex-col gap-6">
+                <div className="lg:col-span-1">
                     <ProgramSchedule />
                 </div>
-                <div className="md:col-span-3 lg:col-span-2">
+                <div className="lg:col-span-2">
                     <CreditStatusChart />
                 </div>
             </div>
@@ -445,3 +448,5 @@ export default function MainPage() {
     </div>
   );
 }
+
+    
