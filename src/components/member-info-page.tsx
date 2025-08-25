@@ -87,6 +87,10 @@ const MemberInfoPage = () => {
                       </div>
                     </div>
                     <div className="space-y-2">
+                      <Label htmlFor="university">대학교</Label>
+                      <Input id="university" defaultValue="국립순천대학교" readOnly />
+                    </div>
+                    <div className="space-y-2">
                       <Label htmlFor="department">학과</Label>
                       <Input id="department" defaultValue="컴퓨터공학과" readOnly />
                     </div>
