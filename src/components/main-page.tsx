@@ -212,7 +212,7 @@ const NotificationAgentModal = ({ selectedDate, onOpenChange, onNotificationSave
 };
 
 const Calendar = () => {
-    const today = new Date(2025, 4, 16);
+    const [today, setToday] = useState(new Date());
     const [currentMonth, setCurrentMonth] = useState(today.getMonth());
     const [currentYear, setCurrentYear] = useState(today.getFullYear());
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
