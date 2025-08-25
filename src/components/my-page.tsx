@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -12,11 +13,13 @@ import { Badge } from '@/components/ui/badge';
 import { Home, Search, X, ChevronDown, ChevronRight } from 'lucide-react';
 
 const MyPage = () => {
+  const [isDevItOpen, setIsDevItOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-[#F7F9FF]">
       <header className="bg-white shadow-sm">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <a href="/" className="text-2xl font-bold text-blue-600 opacity-50">UNIGENT</a>
+          <a href="/" className="text-2xl font-bold text-blue-600">UNIGENT</a>
           <nav className="hidden md:flex items-center space-x-8 text-gray-600">
             <a href="/my-page" className="font-bold text-blue-600">마이페이지</a>
             <a href="#" className="hover:text-blue-600">프로그램</a>
@@ -81,7 +84,7 @@ const MyPage = () => {
                 <div>
                   <h3 className="text-lg font-semibold mb-3">희망 직무 선택 <span className="text-sm text-gray-500 font-normal">최대 3개 선택 가능</span></h3>
                   <div className="p-4 border rounded-md min-h-[100px]">
-                    <p className="text-sm text-gray-600 mb-2">선내한 직무 :</p>
+                    <p className="text-sm text-gray-600 mb-2">선택한 직무 :</p>
                     <div className="flex flex-wrap gap-2">
                       <Badge variant="secondary" className="bg-gray-200 text-gray-800">
                         백엔드 개발
@@ -103,9 +106,10 @@ const MyPage = () => {
                   <h3 className="text-lg font-semibold mb-3">직무 카테고리</h3>
                   <div className="space-y-4">
                       <div className="flex flex-wrap gap-3">
-                            <Collapsible className="w-full">
-                                <CollapsibleTrigger className='flex items-center gap-1 text-sm font-semibold p-2 bg-gray-200 rounded-md'>
-                                    <ChevronDown className="w-4 h-4" /> 개발/IT
+                            <Collapsible className="w-full" open={isDevItOpen} onOpenChange={setIsDevItOpen}>
+                                <CollapsibleTrigger className='flex w-full items-center justify-between text-left gap-1 text-sm font-semibold p-2 bg-gray-200 rounded-md'>
+                                    <span>개발/IT</span>
+                                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isDevItOpen ? 'rotate-180' : ''}`} />
                                 </CollapsibleTrigger>
                                 <CollapsibleContent className='p-4'>
                                     <div className='flex flex-wrap gap-2'>
@@ -138,7 +142,7 @@ const MyPage = () => {
                     <X className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 cursor-pointer" />
                   </div>
                   <div className="p-4 border rounded-md min-h-[100px]">
-                    <p className="text-sm text-gray-600">선내한 회사 :</p>
+                    <p className="text-sm text-gray-600">선택한 회사 :</p>
                   </div>
                 </div>
 
