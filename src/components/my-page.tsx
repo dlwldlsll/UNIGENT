@@ -3,17 +3,51 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Home, Search, X, ChevronDown, ChevronRight } from 'lucide-react';
 
+const ChevronDownIcon = () => (
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M7 10l5 5 5-5H7z" />
+  </svg>
+);
+
+const ChevronRightIcon = () => (
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M10 17l5-5-5-5v10z" />
+  </svg>
+);
+
+
 const MyPage = () => {
-  const [isDevItOpen, setIsDevItOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<string | null>('개발/IT');
+
+  const categories = [
+    {
+      name: '개발/IT',
+      subCategories: [
+        '프론트엔드 개발',
+        '백엔드 개발',
+        '모바일 앱 개발',
+        '데이터 분석/AI',
+        '클라우드/DevOps',
+        '게임 개발',
+        '정보 보안',
+        '임베디드 개발',
+      ],
+    },
+    { name: '디자인/UX', subCategories: [] },
+    { name: '마케팅/광고', subCategories: [] },
+    { name: '경영/사무', subCategories: [] },
+    { name: '교육/강의', subCategories: [] },
+    { name: '연구/R&D', subCategories: [] },
+    { name: '서비스/영업', subCategories: [] },
+  ];
+
+  const handleCategoryClick = (category: string) => {
+    setActiveCategory(activeCategory === category ? null : category);
+  };
 
   return (
     <div className="min-h-screen bg-[#F7F9FF]">
@@ -106,31 +140,30 @@ const MyPage = () => {
                   <h3 className="text-lg font-semibold mb-3">직무 카테고리</h3>
                   <div className="space-y-4">
                       <div className="flex flex-wrap gap-3">
-                            <Collapsible className="w-full" open={isDevItOpen} onOpenChange={setIsDevItOpen}>
-                                <CollapsibleTrigger className='flex w-full items-center justify-between text-left gap-1 text-sm font-semibold p-2 bg-gray-200 rounded-md'>
-                                    <span>개발/IT</span>
-                                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isDevItOpen ? 'rotate-180' : ''}`} />
-                                </CollapsibleTrigger>
-                                <CollapsibleContent className='p-4'>
-                                    <div className='flex flex-wrap gap-2'>
-                                        <Badge className="bg-blue-100 text-blue-700">프론트엔드 개발</Badge>
-                                        <Badge className="bg-blue-100 text-blue-700">백엔드 개발</Badge>
-                                        <Badge className="bg-blue-100 text-blue-700">네이티브 앱 개발</Badge>
-                                        <Badge className="bg-blue-100 text-blue-700">데이터 분석/AI</Badge>
-                                        <Badge className="bg-blue-100 text-blue-700">클라우드/DevOps</Badge>
-                                        <Badge className="bg-blue-100 text-blue-700">게임 개발</Badge>
-                                        <Badge className="bg-blue-100 text-blue-700">정보 보안</Badge>
-                                        <Badge className="bg-blue-100 text-blue-700">임베디드 개발</Badge>
-                                    </div>
-                                </CollapsibleContent>
-                            </Collapsible>
-                            <Button variant="ghost" className='flex items-center gap-1 text-sm font-semibold p-2 bg-gray-200 rounded-md text-gray-600'><ChevronRight className="w-4 h-4" /> 디자인/UX</Button>
-                            <Button variant="ghost" className='flex items-center gap-1 text-sm font-semibold p-2 bg-gray-200 rounded-md text-gray-600'><ChevronRight className="w-4 h-4" /> 마케팅/광고</Button>
-                            <Button variant="ghost" className='flex items-center gap-1 text-sm font-semibold p-2 bg-gray-200 rounded-md text-gray-600'><ChevronRight className="w-4 h-4" /> 경영/사무</Button>
-                            <Button variant="ghost" className='flex items-center gap-1 text-sm font-semibold p-2 bg-gray-200 rounded-md text-gray-600'><ChevronRight className="w-4 h-4" /> 교육/강의</Button>
-                            <Button variant="ghost" className='flex items-center gap-1 text-sm font-semibold p-2 bg-gray-200 rounded-md text-gray-600'><ChevronRight className="w-4 h-4" /> 연구/R&D</Button>
-                            <Button variant="ghost" className='flex items-center gap-1 text-sm font-semibold p-2 bg-gray-200 rounded-md text-gray-600'><ChevronRight className="w-4 h-4" /> 서비스/영업</Button>
+                         {categories.map((category) => (
+                            <Button
+                                key={category.name}
+                                variant="ghost"
+                                onClick={() => handleCategoryClick(category.name)}
+                                className={`flex items-center gap-1 text-sm font-semibold p-2 rounded-full px-4 ${activeCategory === category.name ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-gray-200 text-gray-600 hover:bg-gray-300'}`}
+                            >
+                                {activeCategory === category.name ? <ChevronDownIcon /> : <ChevronRightIcon />}
+                                {category.name}
+                            </Button>
+                        ))}
                       </div>
+                      
+                      {activeCategory && (
+                        <div className='pt-4'>
+                            <div className='flex flex-wrap gap-2'>
+                                {categories.find(c => c.name === activeCategory)?.subCategories.map(sub => (
+                                    <Badge key={sub} className="bg-blue-100 text-blue-700 font-normal py-2 px-4 rounded-md cursor-pointer hover:bg-blue-200">
+                                        {sub}
+                                    </Badge>
+                                ))}
+                            </div>
+                        </div>
+                      )}
                   </div>
                 </div>
                 
