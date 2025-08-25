@@ -217,11 +217,7 @@ const Calendar = () => {
     const [currentYear, setCurrentYear] = useState(today.getFullYear());
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [events, setEvents] = useState<Date[]>([
-        new Date(2025, 4, 4), new Date(2025, 4, 5), new Date(2025, 4, 11), 
-        new Date(2025, 4, 12), new Date(2025, 4, 18), new Date(2025, 4, 19), 
-        new Date(2025, 4, 25), new Date(2025, 4, 26)
-    ]);
+    const [events, setEvents] = useState<Date[]>([]);
 
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
@@ -258,7 +254,7 @@ const Calendar = () => {
         <Card className="w-full h-full">
             <CardHeader>
                 <CardTitle className="flex items-center justify-between">
-                    <span className="text-xl font-bold">{new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' })} <span className="text-gray-500 font-medium">{currentYear}</span></span>
+                    <span className="text-xl font-bold">{new Intl.DateTimeFormat('ko-KR', { month: 'long' }).format(new Date(currentYear, currentMonth))} <span className="text-gray-500 font-medium">{currentYear}</span></span>
                 </CardTitle>
             </CardHeader>
             <CardContent>
