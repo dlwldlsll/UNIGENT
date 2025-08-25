@@ -70,8 +70,8 @@ const AgentPage = () => {
           <a href="/" className="text-2xl font-bold text-blue-600">UNIGENT</a>
           <nav className="hidden md:flex items-center space-x-8 text-gray-600">
             <a href="/my-page" className="hover:text-blue-600">마이페이지</a>
-            <a href="#" className="hover:text-blue-600">프로그램</a>
-            <a href="#" className="hover:text-blue-600">진로/취업</a>
+            <a href="/program" className="hover:text-blue-600">프로그램</a>
+            <a href="/career" className="hover:text-blue-600">진로/취업</a>
             <a href="/curriculum" className="hover:text-blue-600">커리큘럼agent</a>
           </nav>
         </div>
