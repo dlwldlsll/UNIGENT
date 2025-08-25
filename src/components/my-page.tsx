@@ -22,6 +22,8 @@ const ChevronRightIcon = () => (
 const MyPage = () => {
   const [activeCategory, setActiveCategory] = useState<string | null>('개발/IT');
   const [selectedJobs, setSelectedJobs] = useState<string[]>(['백엔드 개발', '프론트엔드 개발']);
+  const [companySearch, setCompanySearch] = useState('');
+  const [selectedCompanies, setSelectedCompanies] = useState<string[]>(['네이버']);
 
   const categories = [
     {
@@ -45,6 +47,12 @@ const MyPage = () => {
     { name: '서비스/영업', subCategories: [] },
   ];
 
+  const allCompanies = [
+    '네이버', '카카오', '쿠팡', '배달의민족', '토스', '당근마켓',
+    '삼성전자', 'SK하이닉스', 'LG전자', '현대자동차',
+    'Google', 'Apple', 'Meta', 'Amazon', 'Microsoft', 'Tesla', 'Netflix'
+  ];
+
   const handleCategoryClick = (category: string) => {
     setActiveCategory(activeCategory === category ? null : category);
   };
@@ -59,6 +67,19 @@ const MyPage = () => {
     setSelectedJobs(selectedJobs.filter((job) => job !== jobToRemove));
   };
 
+  const handleSelectCompany = (company: string) => {
+    if (selectedCompanies.length < 3 && !selectedCompanies.includes(company)) {
+      setSelectedCompanies([...selectedCompanies, company]);
+    }
+  };
+
+  const handleRemoveCompany = (companyToRemove: string) => {
+    setSelectedCompanies(selectedCompanies.filter((company) => company !== companyToRemove));
+  };
+  
+  const filteredCompanies = allCompanies.filter(company => 
+    company.toLowerCase().includes(companySearch.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-[#F7F9FF]">
@@ -182,11 +203,39 @@ const MyPage = () => {
                   <h3 className="text-lg font-semibold mb-3">희망 회사 선택 <span className="text-sm text-gray-500 font-normal">최대 3개 선택 가능</span></h3>
                   <div className="relative mb-4">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                    <Input placeholder="Search..." className="pl-10 bg-gray-100" />
-                    <X className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 cursor-pointer" />
+                    <Input 
+                        placeholder="회사 이름을 검색하세요..." 
+                        className="pl-10 bg-gray-100"
+                        value={companySearch}
+                        onChange={(e) => setCompanySearch(e.target.value)}
+                    />
+                    {companySearch && <X onClick={() => setCompanySearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 cursor-pointer" />}
                   </div>
-                  <div className="p-4 border rounded-md min-h-[100px]">
-                    <p className="text-sm text-gray-600">선택한 회사 :</p>
+                  <div className="p-4 border rounded-md min-h-[100px] mb-4">
+                    <p className="text-sm text-gray-600 mb-2">선택한 회사 :</p>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedCompanies.map((company) => (
+                        <Badge key={company} variant="secondary" className="bg-gray-200 text-gray-800">
+                          {company}
+                          <Button variant="ghost" size="icon" className="h-4 w-4 ml-1" onClick={() => handleRemoveCompany(company)}>
+                            <X className="h-3 w-3" />
+                          </Button>
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                  <div className='pt-4'>
+                      <div className='flex flex-wrap gap-2'>
+                          {filteredCompanies.map(company => (
+                              <Badge 
+                                  key={company} 
+                                  className="bg-blue-100 text-blue-700 font-normal py-2 px-4 rounded-md cursor-pointer hover:bg-blue-200"
+                                  onClick={() => handleSelectCompany(company)}
+                              >
+                                  {company}
+                              </Badge>
+                          ))}
+                      </div>
                   </div>
                 </div>
 
