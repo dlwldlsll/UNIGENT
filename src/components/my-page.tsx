@@ -120,13 +120,13 @@ const MyPage = () => {
                   포트폴리오
                 </a>
                 <a
-                  href="#"
+                  href="/resume"
                   className="block px-4 py-2 text-gray-700 rounded-md hover:bg-gray-100"
                 >
                   자소서/이력서
                 </a>
                 <a
-                  href="#"
+                  href="/customer-service"
                   className="block px-4 py-2 text-gray-700 rounded-md hover:bg-gray-100"
                 >
                   고객센터
