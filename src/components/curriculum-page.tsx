@@ -82,6 +82,13 @@ const CurriculumPage = () => {
             { title: '빅데이터 기초수학', tags: ['김가연 교수님', '3학점', '전공선택'], description: '빅데이터 분석에 필요한 핵심적인 수학적 개념을 다룹니다.', link: '#' },
             { title: '생성형 인공지능 활용 실습', tags: ['김종찬 교수님', '3학점', '심화교양'], description: '생성형 AI 모델의 원리를 이해하고 실제 문제에 적용하는 방법을 학습합니다.', link: '#' },
         ],
+        '3학년 1학기': [
+            { title: '음향응용 및 사운드디자인', tags: ['오원근 교수님', '3학점', '전공선택'], description: '음향 신호 처리와 사운드 디자인의 원리를 학습합니다.', link: '#' },
+            { title: '데이터베이스', tags: ['심춘보 교수님', '3학점', '전공선택'], description: '데이터베이스 시스템의 설계, 구현 및 관리에 대해 학습합니다.', link: '#' },
+            { title: '머신러닝', tags: ['장가연 교수님', '3학점', '전공선택'], description: '다양한 머신러닝 알고리즘의 이론과 실제 적용 방법을 배웁니다.', link: '#' },
+            { title: '운영체제', tags: ['사인츠 교수님', '3학점', '전공선택'], description: '컴퓨터 시스템의 핵심인 운영체제의 구조와 작동 원리를 이해합니다.', link: '#' },
+            { title: '데이터통신과 인터넷', tags: ['김평안 교수님', '3학점', '전공선택'], description: '데이터 통신과 인터넷의 기본 원리 및 프로토콜에 대해 학습합니다.', link: '#' },
+        ],
     };
 
     const courses = semesterCourses[activeSemester] || [];
@@ -150,3 +157,5 @@ const CurriculumPage = () => {
 };
 
 export default CurriculumPage;
+
+    
