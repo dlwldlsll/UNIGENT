@@ -63,7 +63,7 @@ const CourseCard = ({ title, tags, description, link }: { title: string; tags: s
 
 const CurriculumPage = () => {
     const [activeSemester, setActiveSemester] = useState('1학년 2학기');
-    const semesters = ['1학년 1학기', '1학년 2학기', '3학년 1학기', '3학년 2학기', '4학년 1학기', '4학년 2학기', '기타'];
+    const semesters = ['1학년 1학기', '1학년 2학기', '2학년 1학기', '2학년 2학기', '3학년 1학기', '3학년 2학기', '4학년 1학기', '4학년 2학기', '기타'];
     
     const courses = [
         { title: '데이터와 코딩', tags: ['조용윤 교수님', '2학점', '필수교양', '파이썬 기초'], description: '데이터 분석의 기초와 파이썬에 대해 공부할 수 있는 과목입니다.', link: '#' },
